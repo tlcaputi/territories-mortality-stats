@@ -374,6 +374,7 @@ def process_mortality_data(use_multiple_causes=True):
             # Extract fields (0-indexed, positions from documentation are 1-indexed)
             state_occurrence = line[20:22].strip()  # Position 21-22
             state_residence = line[28:30].strip()   # Position 29-30
+            resident_status = line[19:20]           # Position 20: Resident status
             manner_of_death = line[106:107]         # Position 107
             underlying_cause = line[145:149].strip()  # Position 146-149 (underlying cause)
 
@@ -381,6 +382,11 @@ def process_mortality_data(use_multiple_causes=True):
             territory = state_occurrence
 
             if territory not in TERRITORIES:
+                continue
+
+            # Exclude foreign residents (resident_status = 4) to match CDC WONDER methodology
+            # Foreign residents = deaths occurring in US where decedent resided outside US
+            if resident_status == '4':
                 continue
 
             total_records += 1
@@ -513,27 +519,6 @@ def save_csv_output(stats, output_dir):
                 writer.writerow([name, territory_code, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
 
     print(f"Summary saved to: {summary_file}")
-
-    # Detailed ICD-10 codes CSV
-    codes_file = os.path.join(output_dir, 'territory_icd10_codes_2023.csv')
-    with open(codes_file, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Territory', 'Territory_Code', 'ICD10_Code', 'Count', 'Is_Overdose', 'Is_Drug_Related', 'Is_Suicide'])
-
-        for territory_code in ['PR', 'GU', 'VI', 'AS', 'MP']:
-            if territory_code in stats:
-                data = stats[territory_code]
-                name = TERRITORIES[territory_code]
-                for code, count in sorted(data['icd10_codes'].items(), key=lambda x: -x[1]):
-                    if count > 0:
-                        writer.writerow([
-                            name, territory_code, code, count,
-                            'Yes' if is_drug_overdose(code) else 'No',
-                            'Yes' if is_drug_related(code) else 'No',
-                            'Yes' if is_suicide_code(code) else 'No'
-                        ])
-
-    print(f"ICD-10 codes saved to: {codes_file}")
 
 
 if __name__ == "__main__":

@@ -16,21 +16,17 @@ OUTPUT_DIR = os.path.join(PROJECT_ROOT, "output")
 
 # Results from mortality data processing
 RESULTS = [
-    ("Puerto Rico", "34,290", "2,412", "786", "236"),
-    ("Guam", "1,193", "229", "34", "31"),
-    ("Virgin Islands", "758", "23", "5", "10"),
+    ("Puerto Rico", "33,958", "2,348", "749", "231"),
+    ("Guam", "1,183", "228", "34", "31"),
+    ("Virgin Islands", "750", "22", "5", "9"),
     ("American Samoa", "N/A*", "N/A", "N/A", "N/A"),
-    ("Northern Mariana Islands", "235", "25", "0", "4"),
+    ("Northern Mariana Islands", "232", "25", "0", "4"),
 ]
 
-# Validation comparison data
+# Validation comparison data - shows that excluding foreign residents matches WONDER exactly
 VALIDATION_DATA = [
-    ("2018", "72,444", "72,984", "+0.7%"),
-    ("2019", "76,083", "76,655", "+0.8%"),
-    ("2020", "97,841", "98,598", "+0.8%"),
-    ("2021", "113,555", "114,488", "+0.8%"),
-    ("2022", "114,652", "116,253", "+1.4%"),
-    ("2023", "112,106", "114,121", "+1.8%"),
+    ("2023 Overdose Deaths", "112,106", "114,121 (+1.8%)", "112,106 (exact match)"),
+    ("2023 Total Deaths", "3,090,964", "3,101,016 (+0.3%)", "3,090,964 (exact match)"),
 ]
 
 
@@ -116,20 +112,17 @@ def create_report():
     # Validation section
     elements.append(Paragraph("Validation: Public-Use Files vs CDC WONDER", heading_style))
     elements.append(Paragraph(
-        "To validate our methodology, we compared <b>national US overdose death counts</b> from both "
-        "data sources using identical ICD-10 codes (X40-X44, X60-X64, X85, Y10-Y14) as underlying or "
-        "contributing cause. The public-use files consistently show 0.3-1.8% more deaths because: "
-        "(1) CDC WONDER suppresses cells with &lt;10 deaths for privacy and excludes them from totals; "
-        "(2) Downloadable files include late-filed death certificates not yet in WONDER; "
-        "(3) Data release timing differences.",
+        "<b>CDC WONDER excludes foreign residents</b> - deaths occurring in the US where the decedent "
+        "resided outside the US. When we exclude foreign residents (resident_status = 4) from the "
+        "public-use files, the counts match CDC WONDER exactly:",
         body_style
     ))
     elements.append(Spacer(1, 8))
 
-    validation_table_data = [["Year", "CDC WONDER", "Public-Use Files", "Difference"]]
+    validation_table_data = [["Metric", "CDC WONDER", "Public-Use (ALL)", "Public-Use (excl. foreign)"]]
     validation_table_data.extend(VALIDATION_DATA)
 
-    validation_table = Table(validation_table_data, colWidths=[0.8*inch, 1.2*inch, 1.4*inch, 1*inch])
+    validation_table = Table(validation_table_data, colWidths=[1.4*inch, 1.1*inch, 1.3*inch, 1.7*inch])
     validation_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#4472C4')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
@@ -144,8 +137,8 @@ def create_report():
     elements.append(validation_table)
     elements.append(Spacer(1, 8))
     elements.append(Paragraph(
-        "The methodology matches the methodology that CDC WONDER uses. However, the public-use mortality "
-        "files show 0.3-1.8% more deaths because they include more complete data than the WONDER online query system.",
+        "This analysis excludes foreign residents to match CDC WONDER methodology. In 2023, there were "
+        "10,052 foreign resident deaths (0.32% of total) and 2,015 foreign resident overdose deaths (1.77% of overdoses).",
         body_style
     ))
     elements.append(Spacer(1, 12))

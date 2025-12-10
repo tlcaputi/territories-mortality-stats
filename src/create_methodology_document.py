@@ -335,14 +335,21 @@ def create_methodology_document():
         "(Vital Statistics Rapid Release) methodology.",
         body_style
     ))
+    elements.append(Spacer(1, 6))
+    elements.append(Paragraph(
+        "<b>Foreign residents are excluded</b> (resident_status = 4 at position 20) to match "
+        "CDC WONDER methodology. Foreign residents are deaths occurring in the US where the "
+        "decedent resided outside the US.",
+        body_style
+    ))
 
     territory_codes = [
         ["Code", "Territory", "Records in 2023 File"],
-        ["GU", "Guam", "1,193"],
-        ["PR", "Puerto Rico", "34,290"],
-        ["VI", "Virgin Islands", "758"],
+        ["GU", "Guam", "1,183"],
+        ["PR", "Puerto Rico", "33,958"],
+        ["VI", "Virgin Islands", "750"],
         ["AS", "American Samoa", "0 (no data)"],
-        ["MP", "Northern Mariana Islands", "235"],
+        ["MP", "Northern Mariana Islands", "232"],
     ]
 
     terr_table = Table(territory_codes, colWidths=[1*inch, 3*inch, 2.8*inch])
@@ -749,8 +756,8 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
 
     elements.append(Spacer(1, 10))
     elements.append(Paragraph(
-        "*American Samoa: No mortality records were found in the 2023 CDC territories file. "
-        "This may indicate that data was not reported or is reported through a different mechanism.",
+        "*American Samoa did not report mortality data for 2023 (see CDC NVSR Vol 74, No 8: "
+        "https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr-74-08.pdf).",
         note_style
     ))
 
@@ -758,28 +765,29 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
     elements.append(Paragraph(
         "To validate our methodology, we compared <b>national US overdose death counts</b> from both "
         "data sources using identical ICD-10 codes (X40-X44, X60-X64, X85, Y10-Y14) as underlying or "
-        "contributing cause. The methodology matches the methodology that CDC WONDER uses. However, the "
-        "public-use mortality files show 0.3-1.8% more deaths because: (1) CDC WONDER suppresses cells "
-        "with &lt;10 deaths for privacy and excludes them from totals; (2) Downloadable files include "
-        "late-filed death certificates not yet incorporated into WONDER; (3) Data release timing differences.",
+        "contributing cause.",
+        body_style
+    ))
+    elements.append(Spacer(1, 8))
+
+    elements.append(Paragraph(
+        "<b>CDC WONDER excludes foreign residents</b> - deaths that occurred in the US where the decedent "
+        "resided outside the US (resident_status = 4 in the public-use files). When we exclude foreign "
+        "residents from the public-use files, the counts match CDC WONDER exactly:",
         body_style
     ))
     elements.append(Spacer(1, 8))
 
     validation_data = [
-        [Paragraph("<b>Year</b>", header_cell_style),
+        [Paragraph("<b>Metric</b>", header_cell_style),
          Paragraph("<b>CDC WONDER</b>", header_cell_style),
-         Paragraph("<b>Public-Use Files</b>", header_cell_style),
-         Paragraph("<b>Difference</b>", header_cell_style)],
-        ["2018", "72,444", "72,984", "+0.7%"],
-        ["2019", "76,083", "76,655", "+0.8%"],
-        ["2020", "97,841", "98,598", "+0.8%"],
-        ["2021", "113,555", "114,488", "+0.8%"],
-        ["2022", "114,652", "116,253", "+1.4%"],
-        ["2023", "112,106", "114,121", "+1.8%"],
+         Paragraph("<b>Public-Use (ALL)</b>", header_cell_style),
+         Paragraph("<b>Public-Use (excl. foreign)</b>", header_cell_style)],
+        ["2023 Overdose Deaths", "112,106", "114,121 (+1.8%)", "112,106 (exact match)"],
+        ["2023 Total Deaths", "3,090,964", "3,101,016 (+0.3%)", "3,090,964 (exact match)"],
     ]
 
-    validation_table = Table(validation_data, colWidths=[0.8*inch, 1.3*inch, 1.5*inch, 1*inch])
+    validation_table = Table(validation_data, colWidths=[1.5*inch, 1.2*inch, 1.4*inch, 1.8*inch])
     validation_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2E8B57')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
@@ -792,6 +800,13 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
         ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
     ]))
     elements.append(validation_table)
+    elements.append(Spacer(1, 8))
+
+    elements.append(Paragraph(
+        "In 2023, there were 10,052 foreign resident deaths (0.32% of total) and 2,015 foreign resident "
+        "overdose deaths (1.77% of overdoses). This analysis excludes foreign residents to match CDC WONDER methodology.",
+        body_style
+    ))
 
     elements.append(PageBreak())
 

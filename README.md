@@ -6,11 +6,11 @@ Mortality statistics (drug-related deaths, overdose deaths, and suicide deaths) 
 
 | Territory | Total Deaths | Drug-Related Deaths | Overdose Deaths | Suicide Deaths |
 |-----------|-------------|---------------------|-----------------|----------------|
-| Puerto Rico | 34,290 | 2,412 | 786 | 236 |
-| Guam | 1,193 | 229 | 34 | 31 |
-| Virgin Islands | 758 | 23 | 5 | 10 |
+| Puerto Rico | 33,958 | 2,348 | 749 | 231 |
+| Guam | 1,183 | 228 | 34 | 31 |
+| Virgin Islands | 750 | 22 | 5 | 9 |
 | American Samoa | N/A* | N/A | N/A | N/A |
-| Northern Mariana Islands | 235 | 25 | 0 | 4 |
+| Northern Mariana Islands | 232 | 25 | 0 | 4 |
 
 \*American Samoa did not report mortality data for 2023 (see [CDC NVSR Vol 74, No 8](https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr-74-08.pdf)).
 
@@ -20,40 +20,40 @@ Mortality statistics (drug-related deaths, overdose deaths, and suicide deaths) 
 
 Statistics are based on **State of Occurrence** (where death occurred), not State of Residence.
 
+**Foreign Residents Excluded**: To match CDC WONDER methodology, statistics exclude foreign residents (deaths occurring in US territories where the decedent resided outside the US).
+
 ## Validation: Public-Use Files vs CDC WONDER
 
 This project uses **CDC NCHS Multiple Cause of Death Public-Use Files** (downloadable fixed-width data files). These differ slightly from **CDC WONDER** (the online query system) and **CDC FastStats** (which sources from WONDER).
 
-### National Overdose Deaths Comparison
+### Why Public-Use Files Show More Deaths Than WONDER
 
-To validate our methodology, we compared **national US overdose death counts** from both data sources using identical ICD-10 codes (X40-X44, X60-X64, X85, Y10-Y14) as either underlying or contributing cause:
+**CDC WONDER excludes foreign residents** - deaths that occurred in the US where the decedent resided outside the US. When we exclude foreign residents from the public-use files (resident_status = 4), the counts match exactly:
 
-| Year | CDC WONDER | Public-Use Files | Difference |
-|------|------------|------------------|------------|
-| 2018 | 72,444 | 72,984 | +0.7% |
-| 2019 | 76,083 | 76,655 | +0.8% |
-| 2020 | 97,841 | 98,598 | +0.8% |
-| 2021 | 113,555 | 114,488 | +0.8% |
-| 2022 | 114,652 | 116,253 | +1.4% |
-| 2023 | 112,106 | 114,121 | +1.8% |
+| Metric | CDC WONDER | Public-Use (ALL) | Public-Use (excl. foreign residents) |
+|--------|------------|------------------|-------------------------------------|
+| **2023 Overdose Deaths** | 112,106 | 114,121 (+1.8%) | **112,106 (exact match)** |
+| **2023 Total Deaths** | 3,090,964 | 3,101,016 (+0.3%) | **3,090,964 (exact match)** |
 
-### Total Deaths Comparison (2023)
+### Foreign Resident Deaths (2023)
 
-| Source | Total Deaths |
-|--------|-------------|
-| CDC FastStats | 3,090,964 |
-| CDC WONDER | 3,090,964 |
-| Public-Use Files | 3,101,016 (+0.3%) |
+| Category | Foreign Resident Deaths | % of Total |
+|----------|------------------------|------------|
+| Total Deaths | 10,052 | 0.32% |
+| Overdose Deaths | 2,015 | 1.77% |
 
-### Why the Difference?
+### Resident Status Breakdown
 
-The public-use files consistently show 0.3-1.8% more deaths than WONDER/FastStats because:
+The CDC mortality files include a "Resident Status" field (position 20) that categorizes deaths by where the decedent lived relative to where they died:
 
-1. **Cell suppression**: CDC WONDER suppresses cells with <10 deaths for privacy and excludes them from totals
-2. **Late-filed certificates**: Downloadable files include late-filed death certificates not yet incorporated into WONDER
-3. **Data release timing**: The 2023 file (October 2024 release) includes ~900 late-filed NC certificates that WONDER explicitly notes are excluded
+| Status | Description | 2023 Deaths | % |
+|--------|-------------|-------------|---|
+| 1 | Same state/county for occurrence and residence | 2,477,587 | 79.9% |
+| 2 | Same state, different county | 513,955 | 16.6% |
+| 3 | Different state, both in US | 99,422 | 3.2% |
+| 4 | **Foreign residents** (occurred in US, resided abroad) | 10,052 | 0.3% |
 
-**The methodology matches the methodology that CDC WONDER uses.** However, the public-use mortality files show 0.3-1.8% more deaths because they include more complete data than the WONDER online query system
+**Note:** This project includes all deaths (including foreign residents) to provide complete territory-level statistics. For exact CDC WONDER comparisons, filter on resident_status ≠ 4
 
 ## Definitions
 
