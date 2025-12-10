@@ -70,7 +70,7 @@ def create_report():
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('FONTSIZE', (0, 0), (-1, -1), 9),
-        ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('ALIGN', (0, 0), (0, -1), 'LEFT'),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.gray),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#D9E2F3')]),
@@ -122,7 +122,7 @@ def create_report():
     validation_table_data = [["Metric", "CDC WONDER", "Public-Use (ALL)", "Public-Use (excl. foreign)"]]
     validation_table_data.extend(VALIDATION_DATA)
 
-    validation_table = Table(validation_table_data, colWidths=[1.4*inch, 1.1*inch, 1.3*inch, 1.7*inch])
+    validation_table = Table(validation_table_data, colWidths=[1.8*inch, 1.2*inch, 1.5*inch, 2.0*inch])
     validation_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#4472C4')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),

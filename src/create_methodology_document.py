@@ -360,7 +360,7 @@ def create_methodology_document():
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('ALIGN', (0, 0), (-1, 0), 'LEFT'),   # Header row all left
         ('ALIGN', (0, 1), (-1, -1), 'LEFT'),  # Data rows left by default
-        ('ALIGN', (2, 1), (2, -1), 'RIGHT'),  # Records column data right-aligned
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),  # All cells left-aligned
         ('GRID', (0, 0), (-1, -1), 0.5, colors.gray),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F5F5F5')]),
         ('TOPPADDING', (0, 0), (-1, -1), 6),
@@ -745,7 +745,7 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('ALIGN', (0, 0), (-1, 0), 'LEFT'),  # Header row all left
         ('ALIGN', (0, 1), (0, -1), 'LEFT'),   # Territory column left
-        ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), # Data values right
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'), # All cells left-aligned
         ('GRID', (0, 0), (-1, -1), 0.5, colors.gray),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F5F5F5')]),
         ('TOPPADDING', (0, 0), (-1, -1), 6),
@@ -787,7 +787,7 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
         ["2023 Total Deaths", "3,090,964", "3,101,016 (+0.3%)", "3,090,964 (exact match)"],
     ]
 
-    validation_table = Table(validation_data, colWidths=[1.5*inch, 1.2*inch, 1.4*inch, 1.8*inch])
+    validation_table = Table(validation_data, colWidths=[1.8*inch, 1.2*inch, 1.5*inch, 2.0*inch])
     validation_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2E8B57')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
