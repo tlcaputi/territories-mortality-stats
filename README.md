@@ -22,38 +22,14 @@ Statistics are based on **State of Occurrence** (where death occurred), not Stat
 
 **Foreign Residents Excluded**: To match CDC WONDER methodology, statistics exclude foreign residents (deaths occurring in US territories where the decedent resided outside the US).
 
-## Validation: Public-Use Files vs CDC WONDER
+## Validation: Methodology Matches CDC WONDER
 
-This project uses **CDC NCHS Multiple Cause of Death Public-Use Files** (downloadable fixed-width data files). These differ slightly from **CDC WONDER** (the online query system) and **CDC FastStats** (which sources from WONDER).
+This project uses **CDC NCHS Multiple Cause of Death Public-Use Files** and excludes foreign residents (resident_status = 4) to match CDC WONDER methodology. When applying this filter, the public-use file counts match CDC WONDER exactly:
 
-### Why Public-Use Files Show More Deaths Than WONDER
-
-**CDC WONDER excludes foreign residents** - deaths that occurred in the US where the decedent resided outside the US. When we exclude foreign residents from the public-use files (resident_status = 4), the counts match exactly:
-
-| Metric | CDC WONDER | Public-Use (ALL) | Public-Use (excl. foreign residents) |
-|--------|------------|------------------|-------------------------------------|
-| **2023 Overdose Deaths** | 112,106 | 114,121 (+1.8%) | **112,106 (exact match)** |
-| **2023 Total Deaths** | 3,090,964 | 3,101,016 (+0.3%) | **3,090,964 (exact match)** |
-
-### Foreign Resident Deaths (2023)
-
-| Category | Foreign Resident Deaths | % of Total |
-|----------|------------------------|------------|
-| Total Deaths | 10,052 | 0.32% |
-| Overdose Deaths | 2,015 | 1.77% |
-
-### Resident Status Breakdown
-
-The CDC mortality files include a "Resident Status" field (position 20) that categorizes deaths by where the decedent lived relative to where they died:
-
-| Status | Description | 2023 Deaths | % |
-|--------|-------------|-------------|---|
-| 1 | Same state/county for occurrence and residence | 2,477,587 | 79.9% |
-| 2 | Same state, different county | 513,955 | 16.6% |
-| 3 | Different state, both in US | 99,422 | 3.2% |
-| 4 | **Foreign residents** (occurred in US, resided abroad) | 10,052 | 0.3% |
-
-**Note:** This project excludes foreign residents (resident_status = 4) to match CDC WONDER methodology.
+| Metric | CDC WONDER | Public-Use Files (excl. foreign residents) |
+|--------|------------|---------------------------------------------|
+| 2023 Overdose Deaths | 112,106 | 112,106 (exact match) |
+| 2023 Total Deaths | 3,090,964 | 3,090,964 (exact match) |
 
 ## Definitions
 
