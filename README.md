@@ -24,12 +24,16 @@ Statistics are based on **State of Occurrence** (where death occurred), not Stat
 
 ## Validation: Methodology Matches CDC WONDER
 
-This project uses **CDC NCHS Multiple Cause of Death Public-Use Files** and excludes foreign residents (resident_status = 4) to match CDC WONDER methodology. When applying this filter, the public-use file counts match CDC WONDER exactly:
+CDC WONDER does not provide data for US territories, so we cannot directly validate our territory statistics against WONDER. However, we validated our methodology using **national US data**, where both CDC WONDER and the public-use files are available.
 
-| Metric | CDC WONDER | Public-Use Files (excl. foreign residents) |
-|--------|------------|---------------------------------------------|
-| 2023 Overdose Deaths | 112,106 | 112,106 (exact match) |
-| 2023 Total Deaths | 3,090,964 | 3,090,964 (exact match) |
+Using identical ICD-10 codes and excluding foreign residents (resident_status = 4), our methodology produces counts that match CDC WONDER exactly:
+
+| Metric | CDC WONDER | Public-Use Files |
+|--------|------------|------------------|
+| 2023 National Overdose Deaths | 112,106 | 112,106 (exact match) |
+| 2023 National Total Deaths | 3,090,964 | 3,090,964 (exact match) |
+
+This exact match with national data gives us confidence that the same methodology applied to territory data produces accurate results.
 
 ## Definitions
 
