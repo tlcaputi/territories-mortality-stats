@@ -723,11 +723,11 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
          Paragraph("<b>Suicide Deaths</b>", header_cell_style),
          Paragraph("<b>Overdose Deaths</b>", header_cell_style),
          Paragraph("<b>Drug-Related Deaths</b>", header_cell_style)],
-        ["Puerto Rico", "34,290", "236", "769", "825"],
-        ["Guam", "1,193", "31", "30", "40"],
-        ["Virgin Islands", "758", "10", "5", "5"],
+        ["Puerto Rico", "34,290", "236", "786", "2,412"],
+        ["Guam", "1,193", "31", "34", "229"],
+        ["Virgin Islands", "758", "10", "5", "23"],
         ["American Samoa", "N/A*", "N/A", "N/A", "N/A"],
-        [Paragraph("Northern Mariana Islands", cell_style), "235", "4", "0", "0"],
+        [Paragraph("Northern Mariana Islands", cell_style), "235", "4", "0", "25"],
     ]
 
     results_table = Table(results_data, colWidths=[1.8*inch, 1.1*inch, 1.1*inch, 1.2*inch, 1.6*inch])
@@ -754,20 +754,49 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
         note_style
     ))
 
-    elements.append(Paragraph("7.2 Validation", heading2_style))
+    elements.append(Paragraph("7.2 Validation: Public-Use Files vs CDC WONDER", heading2_style))
     elements.append(Paragraph(
-        "The methodology was validated against CDC Vital Statistics Rapid Release (VSRR) "
-        "provisional drug overdose data. Puerto Rico overdose deaths (769) matches the CDC VSRR "
-        "provisional count exactly, confirming the accuracy of our methodology.",
+        "The methodology matches the methodology that CDC WONDER uses. However, the public-use mortality "
+        "files show 0.3-1.8% more deaths because: (1) CDC WONDER suppresses cells with &lt;10 deaths for "
+        "privacy and excludes them from totals; (2) Downloadable files include late-filed death certificates "
+        "not yet incorporated into WONDER; (3) Data release timing differences.",
         body_style
     ))
+    elements.append(Spacer(1, 8))
+
+    validation_data = [
+        [Paragraph("<b>Year</b>", header_cell_style),
+         Paragraph("<b>CDC WONDER</b>", header_cell_style),
+         Paragraph("<b>Public-Use Files</b>", header_cell_style),
+         Paragraph("<b>Difference</b>", header_cell_style)],
+        ["2018", "72,444", "72,984", "+0.7%"],
+        ["2019", "76,083", "76,655", "+0.8%"],
+        ["2020", "97,841", "98,598", "+0.8%"],
+        ["2021", "113,555", "114,488", "+0.8%"],
+        ["2022", "114,652", "116,253", "+1.4%"],
+        ["2023", "112,106", "114,121", "+1.8%"],
+    ]
+
+    validation_table = Table(validation_data, colWidths=[0.8*inch, 1.3*inch, 1.5*inch, 1*inch])
+    validation_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2E8B57')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.gray),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F5F5F5')]),
+        ('TOPPADDING', (0, 0), (-1, -1), 6),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    elements.append(validation_table)
 
     elements.append(PageBreak())
 
     # =========================================================================
     # SECTION 8: APPENDIX
     # =========================================================================
-    elements.append(Paragraph("8. Appendix: Verification", heading1_style))
+    elements.append(Paragraph("8. Appendix: Replication", heading1_style))
 
     elements.append(Paragraph(
         "The complete Python scripts used for data processing and fact sheet generation "
@@ -776,23 +805,22 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
     ))
 
     elements.append(Paragraph("• <b>process_mortality_data.py</b> - Main data processing script", body_style))
-    elements.append(Paragraph("• <b>create_territory_factsheets.py</b> - PDF fact sheet generator", body_style))
+    elements.append(Paragraph("• <b>create_report.py</b> - PDF summary report generator", body_style))
+    elements.append(Paragraph("• <b>create_methodology_document.py</b> - This methodology document generator", body_style))
 
     elements.append(Paragraph("8.1 Data Files", heading2_style))
     elements.append(Preformatted(
         "Data Files:\n"
         "  VS23MORT.DPSMCPUB_r20241030     (Raw mortality data from CDC)\n"
-        "  mortality_doc_2022.pdf          (File layout documentation from CDC)\n\n"
+        "  2023-Mortality-Public-Use-File-Documentation.pdf (File layout documentation)\n\n"
         "Output:\n"
-        "  Puerto_Rico_factsheet_2023.pdf\n"
-        "  Guam_factsheet_2023.pdf\n"
-        "  Virgin_Islands_factsheet_2023.pdf\n"
-        "  American_Samoa_factsheet_2023.pdf\n"
-        "  Northern_Mariana_Islands_factsheet_2023.pdf",
+        "  territory_mortality_summary_2023.csv\n"
+        "  US_Territory_Mortality_Statistics_2023.pdf\n"
+        "  Methodology_US_Territory_Mortality_Statistics.pdf",
         code_style
     ))
 
-    elements.append(Paragraph("8.2 Data Verification", heading2_style))
+    elements.append(Paragraph("8.2 Replication Steps", heading2_style))
     elements.append(Paragraph(
         "To verify these results, download the CDC mortality data file and run the processing script:",
         body_style
