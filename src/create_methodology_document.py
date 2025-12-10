@@ -756,10 +756,12 @@ with open(DATA_FILE, 'r', encoding='latin-1') as f:
 
     elements.append(Paragraph("7.2 Validation: Public-Use Files vs CDC WONDER", heading2_style))
     elements.append(Paragraph(
-        "The methodology matches the methodology that CDC WONDER uses. However, the public-use mortality "
-        "files show 0.3-1.8% more deaths because: (1) CDC WONDER suppresses cells with &lt;10 deaths for "
-        "privacy and excludes them from totals; (2) Downloadable files include late-filed death certificates "
-        "not yet incorporated into WONDER; (3) Data release timing differences.",
+        "To validate our methodology, we compared <b>national US overdose death counts</b> from both "
+        "data sources using identical ICD-10 codes (X40-X44, X60-X64, X85, Y10-Y14) as underlying or "
+        "contributing cause. The methodology matches the methodology that CDC WONDER uses. However, the "
+        "public-use mortality files show 0.3-1.8% more deaths because: (1) CDC WONDER suppresses cells "
+        "with &lt;10 deaths for privacy and excludes them from totals; (2) Downloadable files include "
+        "late-filed death certificates not yet incorporated into WONDER; (3) Data release timing differences.",
         body_style
     ))
     elements.append(Spacer(1, 8))

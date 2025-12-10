@@ -26,6 +26,8 @@ This project uses **CDC NCHS Multiple Cause of Death Public-Use Files** (downloa
 
 ### National Overdose Deaths Comparison
 
+To validate our methodology, we compared **national US overdose death counts** from both data sources using identical ICD-10 codes (X40-X44, X60-X64, X85, Y10-Y14) as either underlying or contributing cause:
+
 | Year | CDC WONDER | Public-Use Files | Difference |
 |------|------------|------------------|------------|
 | 2018 | 72,444 | 72,984 | +0.7% |
