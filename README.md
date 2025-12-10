@@ -53,7 +53,7 @@ The CDC mortality files include a "Resident Status" field (position 20) that cat
 | 3 | Different state, both in US | 99,422 | 3.2% |
 | 4 | **Foreign residents** (occurred in US, resided abroad) | 10,052 | 0.3% |
 
-**Note:** This project includes all deaths (including foreign residents) to provide complete territory-level statistics. For exact CDC WONDER comparisons, filter on resident_status ≠ 4
+**Note:** This project excludes foreign residents (resident_status = 4) to match CDC WONDER methodology.
 
 ## Definitions
 
